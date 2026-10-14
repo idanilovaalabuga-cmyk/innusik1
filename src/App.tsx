@@ -1,4 +1,29 @@
 import { useState, useEffect } from 'react';
+import {
+  FlowerIcon,
+  SunriseIcon,
+  TulipIcon,
+  SunflowerIcon,
+  HibiscusIcon,
+  MoonIcon,
+  ClipboardIcon,
+  RefreshIcon,
+  NoteIcon,
+  CommentIcon,
+  LightbulbIcon,
+  WarningIcon,
+  KeyIcon,
+  SnowflakeIcon,
+  MoneyIcon,
+  PhoneIcon,
+  ThermometerIcon,
+  ScissorsIcon,
+  WaterDropIcon,
+  BanIcon,
+  SmileIcon,
+  PartyIcon,
+  LanguageIcon
+} from './components/Icons';
 
 // Types
 interface Task {
@@ -14,7 +39,7 @@ interface TaskCategory {
   id: string;
   name: string;
   nameRu: string;
-  icon: string;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
   time: string;
   timeRu: string;
   color: string;
@@ -26,40 +51,40 @@ interface TaskCategory {
 // Translations
 const translations = {
   en: {
-    title: 'ЦветыДляИннусика',
+    title: 'TsvetyDlyaInnysika',
     greetingMorning: 'Good Morning',
     greetingAfternoon: 'Good Afternoon',
     greetingEvening: 'Good Evening',
     subtitle: "Here's your daily checklist",
-    newDay: '🔄 New Day',
+    newDay: 'New Day',
     todayProgress: "Today's Progress",
-    allTasks: '📋 All Tasks',
+    allTasks: 'All Tasks',
     tasks: 'tasks',
-    allComplete: '🎉 Amazing! All tasks complete! Time to enjoy those beautiful blooms! 🌷',
-    resetConfirm: '🌸 Reset all tasks for a fresh day?',
+    allComplete: 'Amazing! All tasks complete! Time to enjoy those beautiful blooms!',
+    resetConfirm: 'Reset all tasks for a fresh day?',
     resetSection: 'Reset this section',
     priority: 'Priority',
     important: 'Important',
     routine: 'Routine',
-    addNote: '💬 Add note',
-    noteAdded: '📝 Note added',
+    addNote: 'Add note',
+    noteAdded: 'Note added',
     notePlaceholder: 'Add a note...',
-    tipsTitle: '💡 Quick Tips for the Day',
+    tipsTitle: 'Quick Tips for the Day',
     tips: [
-      { icon: '🌡️', text: 'Keep cooler at 34-38°F — flowers last 2-3x longer at proper temperature' },
-      { icon: '✂️', text: 'Always cut stems at 45° angle under water for best absorption' },
-      { icon: '💧', text: 'Add flower food to every arrangement — it feeds & prevents bacteria' },
-      { icon: '🚫', text: 'Keep flowers away from fruit — ethylene gas causes premature wilting' },
-      { icon: '😊', text: 'Always smile and offer suggestions — customers love personalized service!' },
+      { icon: ThermometerIcon, text: 'Keep cooler at 34-38°F — flowers last 2-3x longer at proper temperature' },
+      { icon: ScissorsIcon, text: 'Always cut stems at 45° angle under water for best absorption' },
+      { icon: WaterDropIcon, text: 'Add flower food to every arrangement — it feeds & prevents bacteria' },
+      { icon: BanIcon, text: 'Keep flowers away from fruit — ethylene gas causes premature wilting' },
+      { icon: SmileIcon, text: 'Always smile and offer suggestions — customers love personalized service!' },
     ],
-    dontForgetTitle: '⚠️ Don\'t Forget!',
+    dontForgetTitle: "Don't Forget!",
     dontForget: [
-      { title: '🔑 Keys & Alarm', text: 'Always double-check doors are locked & alarm is set' },
-      { title: '❄️ Cooler Running', text: 'NEVER turn off the flower cooler overnight' },
-      { title: '💰 Cash Drawer', text: 'Count & secure cash drawer, leave correct change for tomorrow' },
-      { title: '📱 Phone Forwarding', text: 'Make sure shop phone forwards to after-hours number' },
+      { icon: KeyIcon, title: 'Keys & Alarm', text: 'Always double-check doors are locked & alarm is set' },
+      { icon: SnowflakeIcon, title: 'Cooler Running', text: 'NEVER turn off the flower cooler overnight' },
+      { icon: MoneyIcon, title: 'Cash Drawer', text: 'Count & secure cash drawer, leave correct change for tomorrow' },
+      { icon: PhoneIcon, title: 'Phone Forwarding', text: 'Make sure shop phone forwards to after-hours number' },
     ],
-    footer1: '🌸 Made with love for ЦветыДляИннусика 🌸',
+    footer1: 'Made with love for TsvetyDlyaInnysika',
     footer2: 'Checklist auto-resets each day • Progress saved locally',
     language: 'Language',
     english: 'English',
@@ -71,35 +96,35 @@ const translations = {
     greetingAfternoon: 'Добрый день',
     greetingEvening: 'Добрый вечер',
     subtitle: 'Ваш ежедневный чек-лист',
-    newDay: '🔄 Новый день',
+    newDay: 'Новый день',
     todayProgress: 'Прогресс за сегодня',
-    allTasks: '📋 Все задачи',
+    allTasks: 'Все задачи',
     tasks: 'задач',
-    allComplete: '🎉 Отлично! Все задачи выполнены! Время наслаждаться прекрасными цветами! 🌷',
-    resetConfirm: '🌸 Сбросить все задачи для нового дня?',
+    allComplete: 'Отлично! Все задачи выполнены! Время наслаждаться прекрасными цветами!',
+    resetConfirm: 'Сбросить все задачи для нового дня?',
     resetSection: 'Сбросить эту секцию',
     priority: 'Приоритет',
     important: 'Важно',
     routine: 'Обычное',
-    addNote: '💬 Добавить заметку',
-    noteAdded: '📝 Заметка добавлена',
+    addNote: 'Добавить заметку',
+    noteAdded: 'Заметка добавлена',
     notePlaceholder: 'Добавить заметку...',
-    tipsTitle: '💡 Быстрые советы на день',
+    tipsTitle: 'Быстрые советы на день',
     tips: [
-      { icon: '🌡️', text: 'Держите холодильник при 1-3°C — цветы простоят в 2-3 раза дольше при правильной температуре' },
-      { icon: '✂️', text: 'Всегда обрезайте стебли под углом 45° под водой для лучшего впитывания' },
-      { icon: '💧', text: 'Добавляйте подкормку для цветов в каждую композицию — она питает и предотвращает бактерии' },
-      { icon: '🚫', text: 'Держите цветы подальше от фруктов — этилен вызывает преждевременное увядание' },
-      { icon: '😊', text: 'Всегда улыбайтесь и предлагайте варианты — клиенты любят персональный сервис!' },
+      { icon: ThermometerIcon, text: 'Держите холодильник при 1-3°C — цветы простоят в 2-3 раза дольше при правильной температуре' },
+      { icon: ScissorsIcon, text: 'Всегда обрезайте стебли под углом 45° под водой для лучшего впитывания' },
+      { icon: WaterDropIcon, text: 'Добавляйте подкормку для цветов в каждую композицию — она питает и предотвращает бактерии' },
+      { icon: BanIcon, text: 'Держите цветы подальше от фруктов — этилен вызывает преждевременное увядание' },
+      { icon: SmileIcon, text: 'Всегда улыбайтесь и предлагайте варианты — клиенты любят персональный сервис!' },
     ],
-    dontForgetTitle: '⚠️ Не забудьте!',
+    dontForgetTitle: 'Не забудьте!',
     dontForget: [
-      { title: '🔑 Ключи и сигнализация', text: 'Всегда проверяйте, что двери заперты и сигнализация включена' },
-      { title: '❄️ Холодильник работает', text: 'НИКОГДА не выключайте цветочный холодильник на ночь' },
-      { title: '💰 Кассовый ящик', text: 'Пересчитайте и zabezpieчьте кассу, оставьте сдачу на завтра' },
-      { title: '📱 Переадресация телефона', text: 'Убедитесь, что телефон магазина переадресует на нерабочий номер' },
+      { icon: KeyIcon, title: 'Ключи и сигнализация', text: 'Всегда проверяйте, что двери заперты и сигнализация включена' },
+      { icon: SnowflakeIcon, title: 'Холодильник работает', text: 'НИКОГДА не выключайте цветочный холодильник на ночь' },
+      { icon: MoneyIcon, title: 'Кассовый ящик', text: 'Пересчитайте и zabezpieчьте кассу, оставьте сдачу на завтра' },
+      { icon: PhoneIcon, title: 'Переадресация телефона', text: 'Убедитесь, что телефон магазина переадресует на нерабочий номер' },
     ],
-    footer1: '🌸 Сделано с любовью для ЦветыДляИннусика 🌸',
+    footer1: 'Сделано с любовью для ЦветыДляИннусика',
     footer2: 'Чек-лист автоматически сбрасывается каждый день • Прогресс сохраняется локально',
     language: 'Язык',
     english: 'English',
@@ -113,7 +138,7 @@ const getDefaultCategories = (): TaskCategory[] => [
     id: 'morning-open',
     name: 'Morning Opening',
     nameRu: 'Утреннее открытие',
-    icon: '🌅',
+    icon: SunriseIcon,
     time: '7:00 - 8:00 AM',
     timeRu: '7:00 - 8:00 утра',
     color: 'text-amber-700',
@@ -136,7 +161,7 @@ const getDefaultCategories = (): TaskCategory[] => [
     id: 'mid-morning',
     name: 'Mid-Morning Tasks',
     nameRu: 'Задачи середины утра',
-    icon: '🌷',
+    icon: TulipIcon,
     time: '8:00 - 10:00 AM',
     timeRu: '8:00 - 10:00 утра',
     color: 'text-pink-700',
@@ -156,7 +181,7 @@ const getDefaultCategories = (): TaskCategory[] => [
     id: 'afternoon',
     name: 'Afternoon Duties',
     nameRu: 'Дневные обязанности',
-    icon: '🌻',
+    icon: SunflowerIcon,
     time: '10:00 AM - 2:00 PM',
     timeRu: '10:00 утра - 2:00 дня',
     color: 'text-yellow-700',
@@ -177,7 +202,7 @@ const getDefaultCategories = (): TaskCategory[] => [
     id: 'late-afternoon',
     name: 'Late Afternoon',
     nameRu: 'Вторая половина дня',
-    icon: '🌺',
+    icon: HibiscusIcon,
     time: '2:00 - 4:00 PM',
     timeRu: '2:00 - 4:00 дня',
     color: 'text-rose-700',
@@ -196,7 +221,7 @@ const getDefaultCategories = (): TaskCategory[] => [
     id: 'closing',
     name: 'Closing Routine',
     nameRu: 'Закрытие магазина',
-    icon: '🌙',
+    icon: MoonIcon,
     time: '4:00 - 6:00 PM',
     timeRu: '4:00 - 6:00 вечера',
     color: 'text-indigo-700',
@@ -219,7 +244,7 @@ const getDefaultCategories = (): TaskCategory[] => [
     id: 'weekly',
     name: 'Weekly Reminders',
     nameRu: 'Еженедельные напоминания',
-    icon: '📋',
+    icon: ClipboardIcon,
     time: 'Throughout the Week',
     timeRu: 'В течение недели',
     color: 'text-emerald-700',
@@ -431,7 +456,7 @@ function App() {
                   language === 'en'
                     ? (isRussian ? 'text-blue-900' : 'text-pink-800')
                     : (isRussian ? 'text-blue-600' : 'text-gray-600')
-                }`}>🇬🇧 {t.english}</span>
+                }`}>{t.english}</span>
               </button>
 
               {/* Russian Radio Button */}
@@ -460,7 +485,7 @@ function App() {
                   language === 'ru'
                     ? 'text-blue-900'
                     : (isRussian ? 'text-blue-600' : 'text-gray-600')
-                }`}>🇷🇺 {t.russian}</span>
+                }`}>{t.russian}</span>
               </button>
             </div>
           </div>
@@ -471,23 +496,24 @@ function App() {
               <h1 className={`text-2xl md:text-3xl font-bold flex items-center gap-2 transition-colors duration-500 ${
                 isRussian ? 'text-blue-900' : 'text-gray-800'
               }`}>
-                <span className="text-3xl">🌸</span>
+                <FlowerIcon className={isRussian ? 'text-blue-600' : 'text-pink-500'} size={32} />
                 <span>{t.title}</span>
               </h1>
               <p className={`text-sm mt-1 transition-colors duration-500 ${
                 isRussian ? 'text-blue-600' : 'text-gray-500'
               }`}>
-                {greeting}! {t.subtitle} ✨
+                {greeting}! {t.subtitle}
               </p>
             </div>
             <button
               onClick={resetDay}
-              className={`px-3 py-2 text-sm rounded-lg transition-colors font-medium ${
+              className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg transition-colors font-medium ${
                 isRussian 
                   ? 'bg-blue-200 hover:bg-blue-300 text-blue-800' 
                   : 'bg-pink-100 hover:bg-pink-200 text-pink-700'
               }`}
             >
+              <RefreshIcon size={16} />
               {t.newDay}
             </button>
           </div>
@@ -522,6 +548,7 @@ function App() {
               <p className={`text-center text-sm font-medium mt-2 transition-colors duration-500 ${
                 isRussian ? 'text-blue-800' : 'text-emerald-700'
               }`}>
+                <PartyIcon className="inline mr-2" size={16} />
                 {t.allComplete}
               </p>
             )}
@@ -543,7 +570,7 @@ function App() {
                 const catProgress = getCategoryProgress(cat);
                 return (
                   <option key={cat.id} value={cat.id}>
-                    {cat.icon} {getCategoryName(cat)} ({catProgress.completed}/{catProgress.total})
+                    {getCategoryName(cat)} ({catProgress.completed}/{catProgress.total})
                   </option>
                 );
               })}
@@ -556,6 +583,7 @@ function App() {
       <main className="max-w-4xl mx-auto px-4 py-6 space-y-6">
         {filteredCategories.map(category => {
           const catProgress = getCategoryProgress(category);
+          const CategoryIcon = category.icon;
           return (
             <section
               key={category.id}
@@ -564,12 +592,12 @@ function App() {
               {/* Category Header */}
               <div className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{category.icon}</span>
+                  <CategoryIcon className={isRussian ? 'text-blue-600' : category.color} size={28} />
                   <div>
                     <h2 className={`font-bold text-lg transition-colors duration-500 ${
                       isRussian ? 'text-blue-800' : category.color
                     }`}>{getCategoryName(category)}</h2>
-                    <p className="text-xs text-gray-500">⏰ {getCategoryTime(category)}</p>
+                    <p className="text-xs text-gray-500">{getCategoryTime(category)}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -585,7 +613,7 @@ function App() {
                     }`}
                     title={t.resetSection}
                   >
-                    ↺
+                    <RefreshIcon size={16} />
                   </button>
                 </div>
               </div>
@@ -644,12 +672,13 @@ function App() {
                           {getPriorityBadge(task.priority)}
                           <button
                             onClick={() => setShowNotes(showNotes === task.id ? null : task.id)}
-                            className={`text-xs transition-colors ${
+                            className={`flex items-center gap-1 text-xs transition-colors ${
                               isRussian 
                                 ? (notes[task.id] ? 'text-blue-600' : 'text-blue-400 hover:text-blue-600')
                                 : (notes[task.id] ? 'text-pink-600' : 'text-gray-400 hover:text-pink-500')
                             }`}
                           >
+                            {notes[task.id] ? <NoteIcon size={12} /> : <CommentIcon size={12} />}
                             {notes[task.id] ? t.noteAdded : t.addNote}
                           </button>
                         </div>
@@ -684,17 +713,21 @@ function App() {
           <h3 className={`font-bold text-lg flex items-center gap-2 transition-colors duration-500 ${
             isRussian ? 'text-blue-900' : 'text-emerald-800'
           }`}>
+            <LightbulbIcon size={20} />
             {t.tipsTitle}
           </h3>
           <ul className="mt-3 space-y-2 text-sm">
-            {t.tips.map((tip, index) => (
-              <li key={index} className={`flex items-start gap-2 transition-colors duration-500 ${
-                isRussian ? 'text-blue-800' : 'text-emerald-700'
-              }`}>
-                <span>{tip.icon}</span>
-                <span>{tip.text}</span>
-              </li>
-            ))}
+            {t.tips.map((tip, index) => {
+              const TipIcon = tip.icon;
+              return (
+                <li key={index} className={`flex items-start gap-2 transition-colors duration-500 ${
+                  isRussian ? 'text-blue-800' : 'text-emerald-700'
+                }`}>
+                  <TipIcon size={16} />
+                  <span>{tip.text}</span>
+                </li>
+              );
+            })}
           </ul>
         </section>
 
@@ -707,21 +740,28 @@ function App() {
           <h3 className={`font-bold text-lg flex items-center gap-2 transition-colors duration-500 ${
             isRussian ? 'text-blue-900' : 'text-red-800'
           }`}>
+            <WarningIcon size={20} />
             {t.dontForgetTitle}
           </h3>
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
-            {t.dontForget.map((item, index) => (
-              <div key={index} className={`rounded-xl p-3 border transition-colors duration-500 ${
-                isRussian ? 'bg-white/70 border-blue-200' : 'bg-white/70 border-red-100'
-              }`}>
-                <p className={`font-medium text-sm transition-colors duration-500 ${
-                  isRussian ? 'text-blue-800' : 'text-red-700'
-                }`}>{item.title}</p>
-                <p className={`text-xs mt-1 transition-colors duration-500 ${
-                  isRussian ? 'text-blue-700' : 'text-gray-600'
-                }`}>{item.text}</p>
-              </div>
-            ))}
+            {t.dontForget.map((item, index) => {
+              const ItemIcon = item.icon;
+              return (
+                <div key={index} className={`rounded-xl p-3 border transition-colors duration-500 ${
+                  isRussian ? 'bg-white/70 border-blue-200' : 'bg-white/70 border-red-100'
+                }`}>
+                  <p className={`font-medium text-sm flex items-center gap-2 transition-colors duration-500 ${
+                    isRussian ? 'text-blue-800' : 'text-red-700'
+                  }`}>
+                    <ItemIcon size={16} />
+                    {item.title}
+                  </p>
+                  <p className={`text-xs mt-1 transition-colors duration-500 ${
+                    isRussian ? 'text-blue-700' : 'text-gray-600'
+                  }`}>{item.text}</p>
+                </div>
+              );
+            })}
           </div>
         </section>
 
@@ -729,7 +769,11 @@ function App() {
         <footer className={`text-center py-6 text-sm transition-colors duration-500 ${
           isRussian ? 'text-blue-400' : 'text-gray-400'
         }`}>
-          <p>{t.footer1}</p>
+          <p className="flex items-center justify-center gap-2">
+            <FlowerIcon size={16} />
+            {t.footer1}
+            <FlowerIcon size={16} />
+          </p>
           <p className="mt-1">{t.footer2}</p>
         </footer>
       </main>
