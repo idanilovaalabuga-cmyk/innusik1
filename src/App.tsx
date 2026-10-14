@@ -22,7 +22,8 @@ import {
   BanIcon,
   SmileIcon,
   PartyIcon,
-  LanguageIcon
+  LanguageIcon,
+  CameraIcon
 } from './components/Icons';
 
 // Types
@@ -69,13 +70,12 @@ const translations = {
     addNote: 'Add note',
     noteAdded: 'Note added',
     notePlaceholder: 'Add a note...',
-    tipsTitle: 'Quick Tips for the Day',
+    tipsTitle: 'Operational Recommendations',
     tips: [
-      { icon: ThermometerIcon, text: 'Keep cooler at 34-38°F — flowers last 2-3x longer at proper temperature' },
-      { icon: ScissorsIcon, text: 'Always cut stems at 45° angle under water for best absorption' },
-      { icon: WaterDropIcon, text: 'Add flower food to every arrangement — it feeds & prevents bacteria' },
-      { icon: BanIcon, text: 'Keep flowers away from fruit — ethylene gas causes premature wilting' },
-      { icon: SmileIcon, text: 'Always smile and offer suggestions — customers love personalized service!' },
+      { icon: CameraIcon, text: 'Photo fixation: require employee to take 2 photos (display after morning check and finished arrangement on neutral background before delivery)' },
+      { icon: ClipboardIcon, text: 'Digital reporting: replace notebook writing and manual message to owner with mandatory simple electronic form with fields "Terminal revenue", "Receipt photo", "Cleaning status"' },
+      { icon: LightbulbIcon, text: 'Standards visualization: print cutting rules (hydrangea, tulip, others) and processing (rose, dianthus) as brief memo with images and post it directly above flower cleaning zone' },
+      { icon: MoneyIcon, text: 'Material consumption control: introduce rule of mandatory counting of used packaging and oasis at end of shift, comparing with number of sold bouquets and arrangements to identify overconsumption' },
     ],
     dontForgetTitle: "Don't Forget!",
     dontForget: [
@@ -109,13 +109,12 @@ const translations = {
     addNote: 'Добавить заметку',
     noteAdded: 'Заметка добавлена',
     notePlaceholder: 'Добавить заметку...',
-    tipsTitle: 'Быстрые советы на день',
+    tipsTitle: 'Операционные рекомендации',
     tips: [
-      { icon: ThermometerIcon, text: 'Держите холодильник при 1-3°C — цветы простоят в 2-3 раза дольше при правильной температуре' },
-      { icon: ScissorsIcon, text: 'Всегда обрезайте стебли под углом 45° под водой для лучшего впитывания' },
-      { icon: WaterDropIcon, text: 'Добавляйте подкормку для цветов в каждую композицию — она питает и предотвращает бактерии' },
-      { icon: BanIcon, text: 'Держите цветы подальше от фруктов — этилен вызывает преждевременное увядание' },
-      { icon: SmileIcon, text: 'Всегда улыбайтесь и предлагайте варианты — клиенты любят персональный сервис!' },
+      { icon: CameraIcon, text: 'Фотофиксация: обязать сотрудника делать 2 фотографии (витрина после утренней проверки и готовая композиция на нейтральном фоне перед выдачей)' },
+      { icon: ClipboardIcon, text: 'Цифровизация отчета: заменить запись в тетрадь и ручное сообщение владельцу на обязательное заполнение простой электронной формы с полями "Выручка по терминалу", "Фото чека", "Статус уборки"' },
+      { icon: LightbulbIcon, text: 'Визуализация стандартов: распечатать правила среза (гортензия, тюльпан, остальные) и обработки (роза, диантус) в виде краткой памятки с изображениями и закрепить ее непосредственно над зоной зачистки цветов' },
+      { icon: MoneyIcon, text: 'Контроль расхода материалов: ввести правило обязательного подсчета использованных упаковок и оазиса в конце смены, сопоставляя их с количеством проданных букетов и композиций для выявления перерасхода' },
     ],
     dontForgetTitle: 'Не забудьте!',
     dontForget: [
@@ -135,132 +134,90 @@ const translations = {
 // Default tasks data
 const getDefaultCategories = (): TaskCategory[] => [
   {
-    id: 'morning-open',
-    name: 'Morning Opening',
-    nameRu: 'Утреннее открытие',
+    id: 'morning-checklist',
+    name: 'Start of Work Day',
+    nameRu: 'Начало рабочего дня',
     icon: SunriseIcon,
-    time: '7:00 - 8:00 AM',
-    timeRu: '7:00 - 8:00 утра',
+    time: 'Morning',
+    timeRu: 'Утро',
     color: 'text-amber-700',
     bgColor: 'bg-amber-50 border-amber-200',
     bgColorRu: 'bg-blue-50 border-blue-200',
     tasks: [
-      { id: 'm1', text: 'Unlock shop & turn on all lights', textRu: 'Открыть магазин и включить все освещение', completed: false, priority: 'high' },
-      { id: 'm2', text: 'Turn on floral refrigeration units & check temperature (34-38°F)', textRu: 'Включить холодильные установки и проверить температуру (1-3°C)', completed: false, priority: 'high' },
-      { id: 'm3', text: 'Check & water all fresh flower arrangements', textRu: 'Проверить и полить все свежие цветочные композиции', completed: false, priority: 'high' },
-      { id: 'm4', text: 'Remove any wilted flowers or dead leaves', textRu: 'Удалить увядшие цветы и мёртвые листья', completed: false, priority: 'medium' },
-      { id: 'm5', text: 'Recut stems and refresh water in all displays', textRu: 'Подрезать стебли и обновить воду во всех витринах', completed: false, priority: 'medium' },
-      { id: 'm6', text: 'Set out daily special / featured arrangement', textRu: 'Выставить ежедневную акцию / композицию дня', completed: false, priority: 'low' },
-      { id: 'm7', text: 'Turn on POS system & check cash drawer', textRu: 'Включить кассовую систему и проверить денежный ящик', completed: false, priority: 'high' },
-      { id: 'm8', text: 'Check voicemail & answer any emails', textRu: 'Проверить голосовую почту и ответить на письма', completed: false, priority: 'medium' },
-      { id: 'm9', text: "Review today's order schedule & deliveries", textRu: 'Просмотреть график заказов и доставок на сегодня', completed: false, priority: 'high' },
-      { id: 'm10', text: 'Sweep entrance & wipe front windows', textRu: 'Подмететь вход и протереть витрины', completed: false, priority: 'low' },
+      { id: 'm1', text: 'Display inspection: visual check of all flowers and ready arrangements', textRu: 'Осмотр витрины: визуальная проверка состояния всех цветов и готовых композиций', completed: false, priority: 'high' },
+      { id: 'm2', text: 'Check water in vases: assess transparency and water level, identify stale flowers', textRu: 'Проверка воды в вазах: оценка прозрачности и уровня воды, выявление несвежих цветов', completed: false, priority: 'high' },
+      { id: 'm3', text: 'Water replacement: complete water change in all vases according to water change log', textRu: 'Замена воды: полная замена воды во всех вазах согласно журналу замены воды', completed: false, priority: 'high' },
+      { id: 'm4', text: 'Check water change log: confirm all previous change marks are entered correctly', textRu: 'Проверка журнала замены воды: подтверждение, что все отметки о предыдущих заменах внесены корректно', completed: false, priority: 'medium' },
+      { id: 'm5', text: 'Check floor cleanliness (no trash, leaves, water marks)', textRu: 'Проверка чистоты пола (отсутствие мусора, листьев, следов воды)', completed: false, priority: 'medium' },
+      { id: 'm6', text: 'Check work table surface', textRu: 'Проверка поверхности рабочего стола', completed: false, priority: 'medium' },
+      { id: 'm7', text: 'Check space under the table', textRu: 'Проверка пространства под столом', completed: false, priority: 'low' },
+      { id: 'm8', text: 'Check interior condition of drawers', textRu: 'Проверка внутреннего состояния ящиков', completed: false, priority: 'low' },
+      { id: 'm9', text: 'Check storage shelves', textRu: 'Проверка полочек для хранения', completed: false, priority: 'low' },
+      { id: 'm10', text: 'Check vase cleanliness (no plaque and organic residue)', textRu: 'Проверка чистоты ваз (отсутствие налета и остатков органики)', completed: false, priority: 'medium' },
     ]
   },
   {
-    id: 'mid-morning',
-    name: 'Mid-Morning Tasks',
-    nameRu: 'Задачи середины утра',
-    icon: TulipIcon,
-    time: '8:00 - 10:00 AM',
-    timeRu: '8:00 - 10:00 утра',
+    id: 'flower-processing',
+    name: 'Flower Cleaning & Processing',
+    nameRu: 'Зачистка и обработка цветов',
+    icon: ScissorsIcon,
+    time: 'Throughout the Day',
+    timeRu: 'В течение дня',
     color: 'text-pink-700',
     bgColor: 'bg-pink-50 border-pink-200',
     bgColorRu: 'bg-blue-50 border-blue-200',
     tasks: [
-      { id: 'mm1', text: 'Process overnight online orders', textRu: 'Обработать ночные онлайн-заказы', completed: false, priority: 'high' },
-      { id: 'mm2', text: 'Prepare scheduled delivery arrangements', textRu: 'Подготовить запланированные композиции для доставки', completed: false, priority: 'high' },
-      { id: 'mm3', text: 'Confirm delivery addresses & recipient names', textRu: 'Подтвердить адреса доставки и имена получателей', completed: false, priority: 'high' },
-      { id: 'mm4', text: 'Attach gift cards / personal messages to orders', textRu: 'Прикрепить подарочные карты / личные сообщения к заказам', completed: false, priority: 'medium' },
-      { id: 'mm5', text: 'Check flower inventory — note what needs reordering', textRu: 'Проверить запасы цветов — записать что нужно заказать', completed: false, priority: 'high' },
-      { id: 'mm6', text: 'Update whiteboard with daily availability', textRu: 'Обновить доску с ежедневной доступностью', completed: false, priority: 'low' },
-      { id: 'mm7', text: 'Call/confirm any special event orders (weddings, funerals)', textRu: 'Позвонить/подтвердить заказы на мероприятия (свадьбы, похороны)', completed: false, priority: 'high' },
+      { id: 'fp1', text: 'Container preparation: wash vases with dish soap and sponge until perfectly clean', textRu: 'Подготовка тары: мыть вазы с моющим средством для посуды и губкой до идеальной чистоты', completed: false, priority: 'high' },
+      { id: 'fp2', text: 'Vase selection: use tall vases for tall flowers, short vases for short flowers. Do not breed many vases', textRu: 'Подбор ваз: использовать высокие вазы для высоких цветов, низкие вазы для коротких цветов. Не плодить много ваз', completed: false, priority: 'medium' },
+      { id: 'fp3', text: 'Water preparation: water should always be the coldest and freshest. Exception: water for fresh eucalyptus from delivery should be hot, such eucalyptus should not be put in the refrigerator immediately', textRu: 'Подготовка воды: вода всегда должна быть самой холодной и свежей. Исключение: вода для свежего эвкалипта с поставки должна быть горячей, такой эвкалипт в холодильник сразу не ставить', completed: false, priority: 'high' },
+      { id: 'fp4', text: 'Stem processing: keep the stem clean and perfect, completely remove greenery, as it rots in water', textRu: 'Обработка стебля: оставлять стебель чистым и идеальным, полностью удалять зелень, так как она тухнет в воде', completed: false, priority: 'high' },
+      { id: 'fp5', text: 'Hydrangea: lots of water, even stem cut, split in half', textRu: 'Гортензия: много воды, ровный срез стебля, рассеченный надвое', completed: false, priority: 'high' },
+      { id: 'fp6', text: 'Tulip: even cut', textRu: 'Тюльпан: ровный срез', completed: false, priority: 'medium' },
+      { id: 'fp7', text: 'Other flowers: angled cut', textRu: 'Остальные цветы: косой срез', completed: false, priority: 'medium' },
+      { id: 'fp8', text: 'Alstroemeria: provide more water in the vase', textRu: 'Альстромерия: обеспечить побольше воды в вазе', completed: false, priority: 'medium' },
+      { id: 'fp9', text: 'Roses: remove bad petals and wrapper', textRu: 'Розы: убирать плохие лепестки и рубашку', completed: false, priority: 'high' },
+      { id: 'fp10', text: 'Dianthus: slightly spread the bud and remove lower petals', textRu: 'Диантус: немного раздвигать бутон и убирать нижние лепестки', completed: false, priority: 'medium' },
     ]
   },
   {
-    id: 'afternoon',
-    name: 'Afternoon Duties',
-    nameRu: 'Дневные обязанности',
-    icon: SunflowerIcon,
-    time: '10:00 AM - 2:00 PM',
-    timeRu: '10:00 утра - 2:00 дня',
+    id: 'bouquet-assembly',
+    name: 'Bouquet & Arrangement Assembly',
+    nameRu: 'Сборка букетов и композиций',
+    icon: FlowerIcon,
+    time: 'Throughout the Day',
+    timeRu: 'В течение дня',
     color: 'text-yellow-700',
     bgColor: 'bg-yellow-50 border-yellow-200',
     bgColorRu: 'bg-blue-50 border-blue-200',
     tasks: [
-      { id: 'a1', text: 'Greet walk-in customers warmly', textRu: 'Тепло приветствовать посетителей', completed: false, priority: 'high' },
-      { id: 'a2', text: 'Assist customers with bouquet selection', textRu: 'Помогать клиентам с выбором букетов', completed: false, priority: 'high' },
-      { id: 'a3', text: 'Process phone orders & take payment details', textRu: 'Принимать телефонные заказы и данные оплаты', completed: false, priority: 'medium' },
-      { id: 'a4', text: 'Wrap purchased flowers with care (tissue, ribbon, sleeve)', textRu: 'Аккуратно упаковать купленные цветы (бумага, лента, чехол)', completed: false, priority: 'medium' },
-      { id: 'a5', text: 'Restock wrapping supplies (paper, ribbon, cards)', textRu: 'Пополнить запасы упаковочных материалов (бумага, ленты, открытки)', completed: false, priority: 'low' },
-      { id: 'a6', text: 'Take photos of best arrangements for social media', textRu: 'Сфотографировать лучшие композиции для соцсетей', completed: false, priority: 'low' },
-      { id: 'a7', text: 'Mist delicate flowers if needed', textRu: 'Опрыскать нежные цветы при необходимости', completed: false, priority: 'medium' },
-      { id: 'a8', text: 'Rotate display arrangements for freshness', textRu: 'Ротировать витринные композиции для свежести', completed: false, priority: 'low' },
+      { id: 'ba1', text: 'Main rule: ACCURACY at all stages', textRu: 'Главное правило: АККУРАТНОСТЬ на всех этапах', completed: false, priority: 'high' },
+      { id: 'ba2', text: 'Base preparation: before assembly, choose a vase, basket or box. Soak oasis in cold water. Always put a dummy under the oasis, but not too much so the box does not look "pot-bellied"', textRu: 'Подготовка основы: перед сборкой выбрать вазу, корзину или коробку. Замочить оазис в холодной воде. Под оазис всегда подложить муляж, но не слишком много, чтобы коробка не выглядела "пузатой"', completed: false, priority: 'high' },
+      { id: 'ba3', text: 'Color solutions: choose packaging and decorations to match the color of buds, greens or main packaging. Use color wheel or Pinterest references. Main rule: do not variegate and do not overdo with colors, everything should match perfectly', textRu: 'Цветовые решения: упаковку и украшения подбирать в цвет бутонов, зелени или основной упаковки. Использовать цветовой круг или референсы из Pinterest. Главное правило: не пестрить и не переборщить с цветами, все должно идеально сочетаться', completed: false, priority: 'high' },
+      { id: 'ba4', text: 'Proportions: the size of the box for the composition always depends on the number of flowers. Flowers in the bouquet should always be slightly higher than the packaging', textRu: 'Пропорции: размер коробки для композиции всегда зависит от количества цветов. Цветы в букете всегда должны быть чуть выше упаковки', completed: false, priority: 'medium' },
+      { id: 'ba5', text: 'Work with packaging: carefully adjust and trim the packaging if necessary so that it is not visible that it was trimmed', textRu: 'Работа с упаковкой: аккуратно подправлять и подрезать упаковку при необходимости так, чтобы не было видно, что ее подрезали', completed: false, priority: 'medium' },
+      { id: 'ba6', text: 'The place of tying the bouquet and packaging should always be in one place', textRu: 'Место связки букета и упаковки всегда должно быть в одном месте', completed: false, priority: 'medium' },
+      { id: 'ba7', text: 'Glue the packaging so that it does not fly apart during transportation', textRu: 'Упаковку подклеить, чтобы она не разлетелась при транспортировке', completed: false, priority: 'medium' },
+      { id: 'ba8', text: 'Skirt design: for a composition, the skirt is made at the end. For a bouquet, the skirt can not be made separately, or made at the beginning, depending on the chosen packaging option', textRu: 'Оформление юбки: для композиции юбка делается в конце. Для букета юбку можно не делать отдельно, либо сделать в начале, в зависимости от выбранного варианта упаковки', completed: false, priority: 'low' },
+      { id: 'ba9', text: 'Assembly of composition in oasis: it is better to insert flowers immediately 1 time, as the oasis collapses strongly. Insert all flowers from the edge to the center of the oasis. The composition should look integral from different sides', textRu: 'Сборка композиции в оазис: цветы вставлять лучше сразу 1 раз, так как оазис сильно разваливается. Все цветы вставлять от края к центру оазиса. Композиция с разных сторон должна выглядеть целостной', completed: false, priority: 'high' },
     ]
   },
   {
-    id: 'late-afternoon',
-    name: 'Late Afternoon',
-    nameRu: 'Вторая половина дня',
-    icon: HibiscusIcon,
-    time: '2:00 - 4:00 PM',
-    timeRu: '2:00 - 4:00 дня',
-    color: 'text-rose-700',
-    bgColor: 'bg-rose-50 border-rose-200',
-    bgColorRu: 'bg-blue-50 border-blue-200',
-    tasks: [
-      { id: 'la1', text: 'Prepare next-day delivery orders', textRu: 'Подготовить заказы на доставку завтра', completed: false, priority: 'high' },
-      { id: 'la2', text: 'Process any remaining walk-in orders', textRu: 'Обработать оставшиеся заказы посетителей', completed: false, priority: 'medium' },
-      { id: 'la3', text: 'Follow up on any customer complaints or issues', textRu: 'Отработать жалобы или проблемы клиентов', completed: false, priority: 'high' },
-      { id: 'la4', text: 'Check on refrigeration temperature again', textRu: 'Снова проверить температуру холодильника', completed: false, priority: 'medium' },
-      { id: 'la5', text: 'Update order tracking system', textRu: 'Обновить систему отслеживания заказов', completed: false, priority: 'medium' },
-      { id: 'la6', text: 'Respond to any pending social media messages', textRu: 'Ответить на ожидающие сообщения в соцсетях', completed: false, priority: 'low' },
-    ]
-  },
-  {
-    id: 'closing',
-    name: 'Closing Routine',
-    nameRu: 'Закрытие магазина',
+    id: 'end-of-day',
+    name: 'End of Work Day',
+    nameRu: 'Завершение рабочего дня',
     icon: MoonIcon,
-    time: '4:00 - 6:00 PM',
-    timeRu: '4:00 - 6:00 вечера',
+    time: 'Evening',
+    timeRu: 'Вечер',
     color: 'text-indigo-700',
     bgColor: 'bg-indigo-50 border-indigo-200',
     bgColorRu: 'bg-blue-50 border-blue-200',
     tasks: [
-      { id: 'c1', text: 'Final customer service — last call walk-ins', textRu: 'Последнее обслуживание — последние посетители', completed: false, priority: 'medium' },
-      { id: 'c2', text: 'Clean all work surfaces & tools (snips, buckets, tables)', textRu: 'Очистить все рабочие поверхности и инструменты (ножницы, вёдра, столы)', completed: false, priority: 'high' },
-      { id: 'c3', text: 'Sanitize vases and containers for tomorrow', textRu: 'Дезинфицировать вазы и контейнеры на завтра', completed: false, priority: 'medium' },
-      { id: 'c4', text: 'Take out trash & recycling (stems, wrapping, etc.)', textRu: 'Вынести мусор и переработку (стебли, упаковка и т.д.)', completed: false, priority: 'high' },
-      { id: 'c5', text: 'Mop floors & sweep thoroughly', textRu: 'Помыть полы и тщательно подмести', completed: false, priority: 'medium' },
-      { id: 'c6', text: 'Count cash register & prepare deposit', textRu: 'Пересчитать кассу и подготовить депозит', completed: false, priority: 'high' },
-      { id: 'c7', text: 'Run end-of-day report from POS', textRu: 'Сделать отчёт за день из кассовой системы', completed: false, priority: 'high' },
-      { id: 'c8', text: 'Mist and cover overnight flower displays', textRu: 'Опрыскать и накрыть цветочные витрины на ночь', completed: false, priority: 'medium' },
-      { id: 'c9', text: 'Set alarm system & lock all doors', textRu: 'Включить сигнализацию и запереть все двери', completed: false, priority: 'high' },
-      { id: 'c10', text: 'Turn off non-essential lights (keep cooler on!)', textRu: 'Выключить ненужное освещение (холодильник оставить включённым!)', completed: false, priority: 'high' },
-    ]
-  },
-  {
-    id: 'weekly',
-    name: 'Weekly Reminders',
-    nameRu: 'Еженедельные напоминания',
-    icon: ClipboardIcon,
-    time: 'Throughout the Week',
-    timeRu: 'В течение недели',
-    color: 'text-emerald-700',
-    bgColor: 'bg-emerald-50 border-emerald-200',
-    bgColorRu: 'bg-blue-50 border-blue-200',
-    tasks: [
-      { id: 'w1', text: 'Place wholesale flower order (Mon/Wed/Fri)', textRu: 'Заказать оптом цветы (Пн/Ср/Пт)', completed: false, priority: 'high' },
-      { id: 'w2', text: 'Deep clean cooler shelves & drains', textRu: 'Глубокая очистка полок и стоков холодильника', completed: false, priority: 'medium' },
-      { id: 'w3', text: 'Check & reorder supplies (wrapping paper, ribbon, foam)', textRu: 'Проверить и заказать материалы (упаковочная бумага, ленты, пена)', completed: false, priority: 'medium' },
-      { id: 'w4', text: 'Update website with seasonal arrangements', textRu: 'Обновить сайт сезонными композициями', completed: false, priority: 'low' },
-      { id: 'w5', text: 'Post 3+ photos on Instagram/Facebook', textRu: 'Опубликовать 3+ фото в Instagram/Facebook', completed: false, priority: 'low' },
-      { id: 'w6', text: 'Review upcoming event calendar (weddings, holidays)', textRu: 'Просмотреть календарь мероприятий (свадьбы, праздники)', completed: false, priority: 'high' },
-      { id: 'w7', text: 'Check flower food & preservative stock', textRu: 'Проверить запасы подкормки и консервантов для цветов', completed: false, priority: 'medium' },
-      { id: 'w8', text: 'Organize ribbon & supply storage area', textRu: 'Организовать хранение лент и материалов', completed: false, priority: 'low' },
-      { id: 'w9', text: 'Sharpen & sanitize all cutting tools', textRu: 'Заточить и продезинфицировать все режущие инструменты', completed: false, priority: 'medium' },
-      { id: 'w10', text: 'Review & update pricing if needed', textRu: 'Проверить и обновить цены при необходимости', completed: false, priority: 'medium' },
+      { id: 'e1', text: 'Financial reconciliation: reconciliation of totals on the cash terminal', textRu: 'Финансовая сверка: сверка итогов на кассовом терминале', completed: false, priority: 'high' },
+      { id: 'e2', text: 'Data fixation: write down the results in a notebook', textRu: 'Фиксация данных: записать итоги в тетрадь', completed: false, priority: 'high' },
+      { id: 'e3', text: 'Reporting: write to the owner about the total revenue', textRu: 'Отчетность: написать владельцу об итоговой выручке', completed: false, priority: 'high' },
+      { id: 'e4', text: 'Cleaning: wash the floor', textRu: 'Уборка: вымыть пол', completed: false, priority: 'medium' },
+      { id: 'e5', text: 'Flower care: drain water from all vases in the refrigerator', textRu: 'Уход за цветами: слить воду из всех ваз в холодильнике', completed: false, priority: 'high' },
+      { id: 'e6', text: 'Safety: turn on the alarm, close the door', textRu: 'Безопасность: поставить сигнализацию, закрыть дверь', completed: false, priority: 'high' },
     ]
   },
 ];
@@ -270,7 +227,7 @@ function App() {
   const t = translations[language];
   const isRussian = language === 'ru';
 
-  const STORAGE_VERSION = 'v3'; // Increment when data structure changes
+  const STORAGE_VERSION = 'v4'; // Increment when data structure changes
 
   const [categories, setCategories] = useState<TaskCategory[]>(() => {
     const saved = localStorage.getItem('floral-checklist');
@@ -366,8 +323,6 @@ function App() {
   };
 
   const resetDay = () => {
-    alert('Reset function called!');
-    
     // Create reset categories with all tasks set to false
     const resetCategories = categories.map(cat => ({
       id: cat.id,
@@ -392,8 +347,6 @@ function App() {
     // Update state
     setCategories(resetCategories);
     setNotes({});
-    
-    alert('Reset complete! All tasks set to false.');
   };
 
   const resetCategory = (categoryId: string) => {
