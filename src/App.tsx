@@ -26,7 +26,7 @@ interface TaskCategory {
 // Translations
 const translations = {
   en: {
-    title: 'Bloom & Petal',
+    title: 'ЦветыДляИннусика',
     greetingMorning: 'Good Morning',
     greetingAfternoon: 'Good Afternoon',
     greetingEvening: 'Good Evening',
@@ -59,14 +59,14 @@ const translations = {
       { title: '💰 Cash Drawer', text: 'Count & secure cash drawer, leave correct change for tomorrow' },
       { title: '📱 Phone Forwarding', text: 'Make sure shop phone forwards to after-hours number' },
     ],
-    footer1: '🌸 Made with love for Bloom & Petal Floral Shop 🌸',
+    footer1: '🌸 Made with love for ЦветыДляИннусика 🌸',
     footer2: 'Checklist auto-resets each day • Progress saved locally',
     language: 'Language',
     english: 'English',
     russian: 'Русский',
   },
   ru: {
-    title: 'Блум & Петал',
+    title: 'ЦветыДляИннусика',
     greetingMorning: 'Доброе утро',
     greetingAfternoon: 'Добрый день',
     greetingEvening: 'Добрый вечер',
@@ -99,7 +99,7 @@ const translations = {
       { title: '💰 Кассовый ящик', text: 'Пересчитайте и zabezpieчьте кассу, оставьте сдачу на завтра' },
       { title: '📱 Переадресация телефона', text: 'Убедитесь, что телефон магазина переадресует на нерабочий номер' },
     ],
-    footer1: '🌸 Сделано с любовью для цветочного магазина Блум & Петал 🌸',
+    footer1: '🌸 Сделано с любовью для ЦветыДляИннусика 🌸',
     footer2: 'Чек-лист автоматически сбрасывается каждый день • Прогресс сохраняется локально',
     language: 'Язык',
     english: 'English',
@@ -528,7 +528,7 @@ function App() {
           </div>
 
           {/* Tab Navigation */}
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
             <button
               onClick={() => setActiveTab('all')}
               className={`px-3 py-1.5 text-sm rounded-full whitespace-nowrap transition-all ${
