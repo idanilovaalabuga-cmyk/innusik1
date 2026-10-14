@@ -337,7 +337,12 @@ function App() {
   }, [language, t]);
 
   useEffect(() => {
-    localStorage.setItem('floral-checklist', JSON.stringify(categories));
+    // Save only serializable data (exclude icon components)
+    const serializableCategories = categories.map(cat => ({
+      ...cat,
+      icon: undefined, // Remove icon component before saving
+    }));
+    localStorage.setItem('floral-checklist', JSON.stringify(serializableCategories));
     localStorage.setItem('floral-checklist-date', new Date().toDateString());
     localStorage.setItem('floral-checklist-version', STORAGE_VERSION);
   }, [categories]);
@@ -362,6 +367,13 @@ function App() {
 
   const resetDay = () => {
     if (window.confirm(t.resetConfirm)) {
+      // Clear localStorage first
+      localStorage.removeItem('floral-checklist');
+      localStorage.removeItem('floral-checklist-date');
+      localStorage.removeItem('floral-checklist-version');
+      localStorage.removeItem('floral-notes');
+      
+      // Reset state
       setCategories(getDefaultCategories());
       setNotes({});
     }
