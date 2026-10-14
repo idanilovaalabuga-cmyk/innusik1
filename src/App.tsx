@@ -245,9 +245,12 @@ function App() {
   const t = translations[language];
   const isRussian = language === 'ru';
 
+  const STORAGE_VERSION = 'v2'; // Increment when data structure changes
+
   const [categories, setCategories] = useState<TaskCategory[]>(() => {
     const saved = localStorage.getItem('floral-checklist');
-    if (saved) {
+    const savedVersion = localStorage.getItem('floral-checklist-version');
+    if (saved && savedVersion === STORAGE_VERSION) {
       try {
         const parsed = JSON.parse(saved);
         const savedDate = localStorage.getItem('floral-checklist-date');
@@ -260,6 +263,9 @@ function App() {
         return getDefaultCategories();
       }
     }
+    // Clear old data if version mismatch
+    localStorage.removeItem('floral-checklist');
+    localStorage.removeItem('floral-checklist-date');
     return getDefaultCategories();
   });
 
@@ -281,6 +287,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem('floral-checklist', JSON.stringify(categories));
     localStorage.setItem('floral-checklist-date', new Date().toDateString());
+    localStorage.setItem('floral-checklist-version', STORAGE_VERSION);
   }, [categories]);
 
   useEffect(() => {
@@ -342,10 +349,10 @@ function App() {
     }
   };
 
-  const getCategoryName = (cat: TaskCategory) => isRussian ? cat.nameRu : cat.name;
-  const getCategoryTime = (cat: TaskCategory) => isRussian ? cat.timeRu : cat.time;
-  const getCategoryBg = (cat: TaskCategory) => isRussian ? cat.bgColorRu : cat.bgColor;
-  const getTaskText = (task: Task) => isRussian ? task.textRu : task.text;
+  const getCategoryName = (cat: TaskCategory) => isRussian ? (cat.nameRu || cat.name) : cat.name;
+  const getCategoryTime = (cat: TaskCategory) => isRussian ? (cat.timeRu || cat.time) : cat.time;
+  const getCategoryBg = (cat: TaskCategory) => isRussian ? (cat.bgColorRu || cat.bgColor) : cat.bgColor;
+  const getTaskText = (task: Task) => isRussian ? (task.textRu || task.text) : task.text;
 
   return (
     <div className={`min-h-screen transition-colors duration-500 ${
