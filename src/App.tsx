@@ -245,28 +245,55 @@ function App() {
   const t = translations[language];
   const isRussian = language === 'ru';
 
-  const STORAGE_VERSION = 'v2'; // Increment when data structure changes
+  const STORAGE_VERSION = 'v3'; // Increment when data structure changes
 
   const [categories, setCategories] = useState<TaskCategory[]>(() => {
     const saved = localStorage.getItem('floral-checklist');
     const savedVersion = localStorage.getItem('floral-checklist-version');
-    if (saved && savedVersion === STORAGE_VERSION) {
+    const savedDate = localStorage.getItem('floral-checklist-date');
+    const today = new Date().toDateString();
+    
+    // Always use fresh data with translations
+    const defaultCategories = getDefaultCategories();
+    
+    // Check if saved data has translations (textRu fields)
+    const hasTranslations = saved ? (() => {
       try {
         const parsed = JSON.parse(saved);
-        const savedDate = localStorage.getItem('floral-checklist-date');
-        const today = new Date().toDateString();
-        if (savedDate !== today) {
-          return getDefaultCategories();
-        }
-        return parsed;
+        return parsed[0]?.tasks[0]?.textRu !== undefined;
       } catch {
-        return getDefaultCategories();
+        return false;
+      }
+    })() : false;
+    
+    // If we have saved data with translations and it's the same day, restore completed states
+    if (saved && savedVersion === STORAGE_VERSION && savedDate === today && hasTranslations) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Restore completed states from saved data
+        return defaultCategories.map(cat => {
+          const savedCat = parsed.find((c: TaskCategory) => c.id === cat.id);
+          if (savedCat) {
+            return {
+              ...cat,
+              tasks: cat.tasks.map(task => {
+                const savedTask = savedCat.tasks.find((t: Task) => t.id === task.id);
+                return savedTask ? { ...task, completed: savedTask.completed } : task;
+              })
+            };
+          }
+          return cat;
+        });
+      } catch {
+        return defaultCategories;
       }
     }
-    // Clear old data if version mismatch
+    
+    // Clear old data if version mismatch, different day, or missing translations
     localStorage.removeItem('floral-checklist');
     localStorage.removeItem('floral-checklist-date');
-    return getDefaultCategories();
+    localStorage.removeItem('floral-checklist-version');
+    return defaultCategories;
   });
 
   const [activeTab, setActiveTab] = useState<string>('all');
@@ -352,7 +379,10 @@ function App() {
   const getCategoryName = (cat: TaskCategory) => isRussian ? (cat.nameRu || cat.name) : cat.name;
   const getCategoryTime = (cat: TaskCategory) => isRussian ? (cat.timeRu || cat.time) : cat.time;
   const getCategoryBg = (cat: TaskCategory) => isRussian ? (cat.bgColorRu || cat.bgColor) : cat.bgColor;
-  const getTaskText = (task: Task) => isRussian ? (task.textRu || task.text) : task.text;
+  const getTaskText = (task: Task) => {
+    const result = isRussian ? (task.textRu || task.text) : task.text;
+    return result;
+  };
 
   return (
     <div className={`min-h-screen transition-colors duration-500 ${
