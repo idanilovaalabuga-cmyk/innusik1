@@ -366,17 +366,34 @@ function App() {
   };
 
   const resetDay = () => {
-    if (window.confirm(t.resetConfirm)) {
-      // Clear localStorage first
-      localStorage.removeItem('floral-checklist');
-      localStorage.removeItem('floral-checklist-date');
-      localStorage.removeItem('floral-checklist-version');
-      localStorage.removeItem('floral-notes');
-      
-      // Reset state
-      setCategories(getDefaultCategories());
-      setNotes({});
-    }
+    alert('Reset function called!');
+    
+    // Create reset categories with all tasks set to false
+    const resetCategories = categories.map(cat => ({
+      id: cat.id,
+      name: cat.name,
+      nameRu: cat.nameRu,
+      icon: cat.icon,
+      time: cat.time,
+      timeRu: cat.timeRu,
+      color: cat.color,
+      bgColor: cat.bgColor,
+      bgColorRu: cat.bgColorRu,
+      tasks: cat.tasks.map(task => ({
+        id: task.id,
+        text: task.text,
+        textRu: task.textRu,
+        completed: false,
+        priority: task.priority,
+        note: task.note
+      }))
+    }));
+    
+    // Update state
+    setCategories(resetCategories);
+    setNotes({});
+    
+    alert('Reset complete! All tasks set to false.');
   };
 
   const resetCategory = (categoryId: string) => {
@@ -518,8 +535,9 @@ function App() {
               </p>
             </div>
             <button
+              type="button"
               onClick={resetDay}
-              className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg transition-colors font-medium ${
+              className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg transition-colors font-medium cursor-pointer relative z-20 ${
                 isRussian 
                   ? 'bg-blue-200 hover:bg-blue-300 text-blue-800' 
                   : 'bg-pink-100 hover:bg-pink-200 text-pink-700'
