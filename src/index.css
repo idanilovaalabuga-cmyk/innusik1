@@ -53,3 +53,24 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Custom radio button pulse animation */
+@keyframes radio-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+[role="radio"][aria-checked="true"] span:first-child {
+  animation: radio-pulse 0.3s ease;
+}
+
+/* Ensure radio buttons are always visible */
+button[role="radio"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Language switcher container glow effect */
+.language-switcher-glow {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
