@@ -527,34 +527,27 @@ function App() {
             )}
           </div>
 
-          {/* Tab Navigation */}
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
-            <button
-              onClick={() => setActiveTab('all')}
-              className={`px-3 py-1.5 text-sm rounded-full whitespace-nowrap transition-all ${
-                activeTab === 'all'
-                  ? (isRussian ? 'bg-blue-500 text-white shadow-md' : 'bg-pink-500 text-white shadow-md')
-                  : (isRussian ? 'bg-blue-100 text-blue-700 hover:bg-blue-200 border border-blue-200' : 'bg-white text-gray-600 hover:bg-pink-50 border border-gray-200')
+          {/* Category Filter Select */}
+          <div className="mt-4">
+            <select
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value)}
+              className={`w-full px-4 py-3 text-sm font-medium rounded-xl border-2 transition-all duration-500 cursor-pointer focus:outline-none focus:ring-2 ${
+                isRussian
+                  ? 'bg-blue-50 border-blue-300 text-blue-900 focus:ring-blue-400'
+                  : 'bg-pink-50 border-pink-300 text-gray-800 focus:ring-pink-400'
               }`}
             >
-              {t.allTasks}
-            </button>
-            {categories.map(cat => {
-              const catProgress = getCategoryProgress(cat);
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveTab(cat.id)}
-                  className={`px-3 py-1.5 text-sm rounded-full whitespace-nowrap transition-all ${
-                    activeTab === cat.id
-                      ? (isRussian ? 'bg-blue-500 text-white shadow-md' : 'bg-pink-500 text-white shadow-md')
-                      : (isRussian ? 'bg-blue-100 text-blue-700 hover:bg-blue-200 border border-blue-200' : 'bg-white text-gray-600 hover:bg-pink-50 border border-gray-200')
-                  }`}
-                >
-                  {cat.icon} {getCategoryName(cat)} ({catProgress.completed}/{catProgress.total})
-                </button>
-              );
-            })}
+              <option value="all">{t.allTasks}</option>
+              {categories.map(cat => {
+                const catProgress = getCategoryProgress(cat);
+                return (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.icon} {getCategoryName(cat)} ({catProgress.completed}/{catProgress.total})
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
       </header>
