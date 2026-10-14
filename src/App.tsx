@@ -373,43 +373,71 @@ function App() {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              {/* Language Switcher */}
-              <div className={`flex items-center gap-3 px-3 py-2 rounded-xl border transition-colors duration-500 ${
-                isRussian ? 'bg-blue-100 border-blue-300' : 'bg-pink-50 border-pink-200'
+              {/* Language Switcher - Radio Buttons */}
+              <div className={`flex items-center gap-4 px-4 py-3 rounded-xl border-2 transition-colors duration-500 ${
+                isRussian ? 'bg-blue-100 border-blue-400 shadow-md shadow-blue-200' : 'bg-pink-50 border-pink-300 shadow-md shadow-pink-100'
               }`}>
-                <span className={`text-xs font-medium transition-colors duration-500 ${
-                  isRussian ? 'text-blue-700' : 'text-gray-600'
+                <span className={`text-sm font-bold transition-colors duration-500 ${
+                  isRussian ? 'text-blue-800' : 'text-gray-700'
                 }`}>{t.language}:</span>
-                <label className="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="language"
-                    value="en"
-                    checked={language === 'en'}
-                    onChange={() => setLanguage('en')}
-                    className="w-4 h-4 text-pink-500 focus:ring-pink-400"
-                  />
-                  <span className={`text-sm font-medium transition-colors duration-500 ${
-                    language === 'en' 
-                      ? (isRussian ? 'text-blue-800' : 'text-pink-700') 
-                      : (isRussian ? 'text-blue-500' : 'text-gray-500')
-                  }`}>{t.english}</span>
-                </label>
-                <label className="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="language"
-                    value="ru"
-                    checked={language === 'ru'}
-                    onChange={() => setLanguage('ru')}
-                    className="w-4 h-4 text-blue-500 focus:ring-blue-400"
-                  />
-                  <span className={`text-sm font-medium transition-colors duration-500 ${
-                    language === 'ru' 
-                      ? 'text-blue-800' 
-                      : (isRussian ? 'text-blue-500' : 'text-gray-500')
-                  }`}>{t.russian}</span>
-                </label>
+                
+                {/* English Radio Button */}
+                <button
+                  type="button"
+                  onClick={() => setLanguage('en')}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-300 cursor-pointer ${
+                    language === 'en'
+                      ? (isRussian ? 'bg-blue-200 ring-2 ring-blue-500' : 'bg-pink-200 ring-2 ring-pink-500')
+                      : 'bg-white/50 hover:bg-white/80'
+                  }`}
+                  aria-pressed={language === 'en'}
+                  role="radio"
+                  aria-checked={language === 'en'}
+                >
+                  <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                    language === 'en'
+                      ? 'border-pink-600 bg-pink-600'
+                      : 'border-gray-400 bg-white'
+                  }`}>
+                    {language === 'en' && (
+                      <span className="w-2 h-2 rounded-full bg-white"></span>
+                    )}
+                  </span>
+                  <span className={`text-sm font-semibold transition-colors duration-300 ${
+                    language === 'en'
+                      ? (isRussian ? 'text-blue-900' : 'text-pink-800')
+                      : (isRussian ? 'text-blue-600' : 'text-gray-600')
+                  }`}>🇬🇧 {t.english}</span>
+                </button>
+
+                {/* Russian Radio Button */}
+                <button
+                  type="button"
+                  onClick={() => setLanguage('ru')}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-300 cursor-pointer ${
+                    language === 'ru'
+                      ? 'bg-blue-200 ring-2 ring-blue-500'
+                      : 'bg-white/50 hover:bg-white/80'
+                  }`}
+                  aria-pressed={language === 'ru'}
+                  role="radio"
+                  aria-checked={language === 'ru'}
+                >
+                  <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                    language === 'ru'
+                      ? 'border-blue-600 bg-blue-600'
+                      : 'border-gray-400 bg-white'
+                  }`}>
+                    {language === 'ru' && (
+                      <span className="w-2 h-2 rounded-full bg-white"></span>
+                    )}
+                  </span>
+                  <span className={`text-sm font-semibold transition-colors duration-300 ${
+                    language === 'ru'
+                      ? 'text-blue-900'
+                      : (isRussian ? 'text-blue-600' : 'text-gray-600')
+                  }`}>🇷🇺 {t.russian}</span>
+                </button>
               </div>
               <button
                 onClick={resetDay}
